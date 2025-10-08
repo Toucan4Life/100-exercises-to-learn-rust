@@ -44,8 +44,15 @@ impl TicketStore {
         }
     }
 
-    pub fn add_ticket(&mut self, ticket: Ticket) {
+    pub fn add_ticket(&mut self, ticketDraft: TicketDraft) -> TicketId {
+        let id = TicketId(self.tickets.len() as u64);
+        let ticket = Ticket{description:ticketDraft.description, id :id, title:ticketDraft.title, status: Status::ToDo };
         self.tickets.push(ticket);
+        id
+    }
+
+    pub fn get(&self,ticketId:TicketId) -> Option<Ticket>{
+        self.tickets.iter().find(|i| i.id == ticketId).cloned()
     }
 }
 
